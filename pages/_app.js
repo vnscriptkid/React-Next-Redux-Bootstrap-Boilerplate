@@ -1,13 +1,19 @@
 // pages/_app.js
 import React from "react";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
 import {Provider} from "react-redux";
 import App, {Container} from "next/app";
 import withRedux from "next-redux-wrapper";
 import rootReducer from '../reducers';
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunkMiddleware from 'redux-thunk'
 
 const makeStore = (initialState, options) => {
-    return createStore(rootReducer, initialState);
+    return createStore(
+        rootReducer, 
+        initialState,
+        composeWithDevTools(applyMiddleware(thunkMiddleware))
+        );
 };
 
 class MyApp extends App {
